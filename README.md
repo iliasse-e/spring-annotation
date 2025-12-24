@@ -55,6 +55,39 @@ public class TaskApplication {
 
 ## Gérer les ambiguïtés grâce à @Primary et @Qualifier
 
+Dans l'exemple précédent, Spring va chercher un bean de type ``Runnable``, c’est-à-dire un bean qui implémente l’interface ``Runnable`` dans le contexte d’application. Il est possible qu’il y ait plusieurs beans satisfaisant à ce critère. Dans ce cas, Spring va sélectionner le bean qui porte le même nom que l’attribut : tache dans notre exemple.
+
+S’il existe plusieurs beans compatibles avec le type attendu et qu’aucun d’eux ne porte le bon nom, alors la création du contexte d’application échoue avec l’exception ``UnsatisfiedDependencyException``.
+
+### L’annotation @Primary
+
+L’annotation @Primary permet d’indiquer le bean qui devra être sélectionné en priorité en cas d’ambiguïté.
+
+```java
+@Bean
+@Primary
+public Runnable oneTask() {
+  // ...
+}
+
+@Bean
+public Runnable anotherTask() {
+  // ...
+}
+```
+
+### L’annotation @Qualifier
+
+L’annotation ``@Qualifier`` permet de qualifier, c’est-à-dire de préciser le nom du bean à injecter. Dans la classe Java, on ajoute l’annotation sur un attribut ou sur un paramètre d’une méthode ou d’un constructeur.
+
+```java
+public class TaskManager {
+
+  @Autowired
+  @Qualifier("tache")
+  private Runnable runnable; // si plusieurs beans compatibles avec l’interface Runnable sont trouvés dans le contexte d’application, alors c’est celui portant le nom de tache qui sera choisi
+```
+
 ## L’annotation @Value
 
 L’annotation @Value est utilisable sur un attribut ou un paramètre pour un type primitif ou une chaîne de caractères. Elle donne la valeur par défaut à injecter.
@@ -70,6 +103,7 @@ public class ValueSupplier implements Supplier<String> {
 
 ### @Ressource
 
+Assez similaire à `@Autowired` (voir les différences).
 
 ### @PostConstruct
 Cette annotation s’utilise sur une méthode publique sans paramètre afin de signaler que cette méthode doit être appelée par le conteneur IoC après l’initialisation du bean. Il s’agit d’une alternative à la déclaration de la méthode d’initialisation.
