@@ -179,6 +179,23 @@ C'est le type générique (qui signifie que cette classe doit être utiliser pou
 *Les stéréotypes `@Service` et `@Repository` sont purement descriptifs. Ils permettent d’offrir une information supplémentaire aux développeurs*
 
 
+## @Configuration
+
+L’annotation @Configuration permet de déclarer pour Spring un composant qui ne sert qu’à configurer le contexte de l’application. Normalement ce composant n’est pas destiné à être injecté comme dépendance mais à déclarer des méthodes de fabrique annotées avec ``@Bean``.
+
+Un bean de configuration doit être scanné par le Spring Framework pour pouvoir être instancié et participer à la création du contexte d’application. Si vous développez des bibliothèques destinées à être réutilisées dans plusieurs applications ou si vous voulez introduire de la modularité dans l’architecture de votre application, vous pouvez fournir des beans de configuration pour chaque module et importer ces beans grâce à l’annotation ``@Import``.
+
+Imaginons que nous ayons isolé dans notre code un package et tous ses sous packages pour les classes gérant la sécurité dans notre application et un autre package et tous ses sous packages pour les classes gérant l’accès aux services nécessaires à notre application.
+
+Dans le premier package, nous pouvons ajouter la classe ``SecurityConfiguration`` qui peut contenir des méthodes de fabrique et indiquer à Spring qu’il doit réaliser une détection automatique à partir de ce package :
+
+[class SecurityConfiguration]("./src/main/java/com/spring/annotation/security/SecurityConfiguration.java")
+
+Puis le seconde package :
+
+[class SecurityAccessConfiguration]("./src/main/java/com/spring/annotation/access/SecurityAccessConfiguration.java")
+
+Pour enfin, dans le fichier principal utiliser `@Import` pour importer ces deux classes de configuration.
 
 ```java
 
