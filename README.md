@@ -144,18 +144,39 @@ Nous pouvons reprendre notre exemple du chapitre précédent en réduisant consi
 
 ## Notion de composant
 
+C'est une classe qui porte l'annotation `@Component` dont on peut spécifier le nom du *bean* :
+```java
+@Component("servicePrincipal")
+public class WriterService implements Runnable
+// Si on ne fournit pas de nom pour le bean, le Spring Framework le déduit du nom de la classe en mettant la première lettre en minuscule
+```
+
+Comme les méthodes de fabrique, une classe de composant peut également être annotée avec ``@Primary``. De plus, elle peut elle-même déclarer des méthodes de fabrique, c’est-à-dire des méthodes portant l’annotation ``@Bean``. Dans ce cas, ces méthodes de fabrique seront appelées après la création du bean.
+
+*Si la classe du composant déclare un constructeur avec des paramètres, alors Spring essaiera de résoudre les dépendances pour chaque paramètre. Les paramètres du constructeur peuvent recevoir les annotations ``@Value`` ou ``@Qualifier`` pour guider le framework dans le processus d’injection. Si la classe du composant déclare plusieurs constructeurs alors vous devez ajouter l’annotation ``@Autowired`` sur le constructeur qui doit être utilisé par le Spring Framework.*
+
 ## Stéréotype de composant
+
+Il est possible de donner un stéréotype au composant, c’est-à-dire d'$etre plus spécifique. Certains stéréotypes sont purement descriptifs et ne servent qu’à fournir une information aux développeurs. D’autres bénéficient d’un traitement particulier dans certains contextes d’exécution.
 
 ### @Component 
 
-### @Service 
+C'est le type générique (qui signifie que cette classe doit être utiliser pour instancier un 
+*bean*). Les autres dérivés sont :
 
-### @Respository 
+- ### @Service 
+  Renvoie aux classes qui ont la charge de réaliser les fonctionnalités principales
 
-### @Configuration
+- ### @Respository 
+  Fait référence à une classe dont le rôle est d'intéragir avec la BDD (couche DAO).
 
-### @Controller & @RestController
+- ### @Configuration
+  Un composant de configuration sert à configurer le contexte d’application. Généralement, il déclare des méthodes de fabrique annotées avec ``@Bean`` (Cf. ci-dessous).
 
+- ### @Controller & @RestController
+  Un composant qui joue le rôle d’un contrôleur dans une architecture MVC pour une application Web ou une API Web
+
+*Les stéréotypes `@Service` et `@Repository` sont purement descriptifs. Ils permettent d’offrir une information supplémentaire aux développeurs*
 
 
 
