@@ -134,6 +134,14 @@ public class SimpleConnectionProvider implements Supplier<Connection> {
 
 ## Détection automatique des composants (component scan)
 
+Plutôt que de créer les beans avec des méthodes de fabrique, il est possible de demander au Spring Framework de rechercher dans des packages les classes qui doivent être instanciées pour ajouter des beans dans le contexte d’application. On appelle cette opération le **component scan**.
+
+Pour activer cette fonctionnalité, il suffit de rajouter l’annotation `@ComponentScan` sur la classe qui est passée en paramètre de création du contexte d’application. Par défaut, le Spring Framework va chercher les classes dans le package de cette classe et tous les sous packages. Vous pouvez modifier ce comportement à l’aide de l’attribut `basePackages` qui vous permet de donner la liste des packages (incluant automatiquement leurs sous-packages) à scruter. Vous pouvez également utiliser l’attribut `basePackageClasses` pour fournir une liste de classes. Dans ce cas, ce sont les packages auxquelles appartiennent ces classes (en incluant automatiquement les sous-packages) qui seront scrutés.
+
+Le framework va scruter toutes les classes et créer un bean dans le conteneur IoC pour celles qui sont identifiées comme des composants. Une classe désigne un composant si elle possède l’annotation ``@Component`` ou une annotation de stéréotype de composant (Cf. ci-dessous).
+
+Nous pouvons reprendre notre exemple du chapitre précédent en réduisant considérablement le code en remplaçant les méthodes de fabrique par une détection automatique des composants :
+
 ## Notion de composant
 
 ## Stéréotype de composant
