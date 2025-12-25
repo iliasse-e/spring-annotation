@@ -198,13 +198,11 @@ Puis le seconde package :
 Pour enfin, dans le fichier principal utiliser `@Import` pour importer ces deux classes de configuration.
 
 ```java
-
+@Import({SecurityConfiguration.class, SecurityAccessConfiguration.class})
+public class TaskApplication { //...
 ```
 
-```java
+## [Créer un stéréotype](https://gayerie.dev/docs/spring/spring/annotations.html#creation-de-stereotype-de-composant)
 
-```
 
-```java
-
-```
+## [Notions avancées pour la gestion des dépendances](https://gayerie.dev/docs/spring/spring/annotations.html#notions-avancees-pour-la-gestion-des-dependances)
